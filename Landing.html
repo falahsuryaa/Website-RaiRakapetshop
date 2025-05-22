@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaiRakaPetshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" xintegrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Reset dan Basic Styling */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary-color: #14B8A6; /* Teal 500 */
+            --primary-darker: #0D9488; /* Teal 600 */
+            --secondary-color: #F97316; /* Orange 500 */
+            --secondary-darker: #EA580C; /* Orange 600 */
+            --text-primary: #1F2937; /* Gray 800 */
+            --text-secondary: #4B5563; /* Gray 600 */
+            --bg-light: #F9FAFB; /* Gray 50 */
+            --bg-white: #FFFFFF;
+            --border-light: #E5E7EB; /* Gray 200 */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --mobile-nav-width: 280px; /* Lebar navigasi mobile */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background-color: var(--bg-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative; 
+            overflow-x: hidden; 
+        }
+        
+        .nav-overlay { 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1007; 
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        body.show-overlay .nav-overlay { 
+            display: block;
+            opacity: 1;
+        }
+
+
+        .container {
+            width: 90%;
+            max-width: 1400px; 
+            margin: auto;
+            padding: 0 15px; 
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-white);
+            padding: 1.2rem 0; 
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000; 
+            box-shadow: var(--shadow-sm);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem; 
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            z-index: 1011; 
+        }
+        
+        .nav-toggle {
+            display: none; 
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.8rem; 
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1011; 
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex; 
+            margin: 0;
+            padding: 0;
+        }
+
+        header nav ul li {
+            margin-left: 30px; 
+        }
+
+        header nav ul li a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500; 
+            font-size: 1rem; 
+            padding: 10px 15px; 
+            border-radius: var(--border-radius-md);
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            display: block; 
+        }
+
+        header nav ul li a:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+        }
+        header nav ul li a.active {
+            background-color: var(--primary-color);
+            color: var(--bg-white);
+            font-weight: 600;
+        }
+
+        /* Simple Hero Section (Pengganti Galeri) */
+        #beranda.simple-hero {
+            background-color: var(--primary-color); /* Warna latar belakang utama */
+            color: var(--bg-white);
+            padding: 80px 0; /* Padding lebih besar */
+            text-align: center;
+        }
+        #beranda.simple-hero .hero-content {
+            max-width: 800px;
+            margin: auto;
+        }
+        #beranda.simple-hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3.5rem; /* Ukuran judul lebih besar */
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        #beranda.simple-hero p {
+            font-size: 1.25rem; /* Ukuran sub-judul lebih besar */
+            margin-bottom: 30px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 32px; 
+            text-decoration: none;
+            border-radius: var(--border-radius-md);
+            font-weight: 600; 
+            font-size: 1.05rem; 
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: none;
+            cursor: pointer;
+            text-align: center; 
+        }
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+
+        .btn-primary {
+            background-color: var(--secondary-color); /* Menggunakan warna sekunder untuk kontras di hero */
+            color: var(--bg-white);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--secondary-darker);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--bg-white);
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--secondary-darker);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        section:not(#beranda) { 
+            padding: 80px 0; 
+        }
+
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.9rem; 
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 55px; 
+            color: var(--primary-darker);
+        }
+
+        #tentang {
+            background-color: var(--bg-white); 
+        }
+        #tentang .about-content {
+            display: flex;
+            flex-wrap: wrap; 
+            align-items: center;
+            gap: 50px; 
+            padding: 40px;
+            border-radius: var(--border-radius-lg);
+        }
+        #tentang .about-text {
+            flex: 1; 
+            min-width: 300px; 
+        }
+        #tentang .about-text p {
+            margin-bottom: 20px; 
+            line-height: 1.8;
+            color: var(--text-secondary);
+            font-size: 1.1rem; 
+        }
+         #tentang .about-image {
+            flex-basis: 45%; 
+            min-width: 300px; 
+        }
+        #tentang .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg); 
+        }
+
+        /* Gemini Features Section */
+        .gemini-feature-section {
+            background-color: var(--bg-light);
+            padding: 60px 0; 
+        }
+        .gemini-feature-box {
+            background-color: var(--bg-white);
+            padding: 35px; 
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 35px; 
+        }
+        .gemini-feature-box h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-darker);
+            font-size: 2rem; 
+            margin-bottom: 25px; 
+        }
+        .gemini-feature-box label {
+            display: block;
+            margin-bottom: 10px; 
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1.05rem; 
+        }
+        .gemini-feature-box select,
+        .gemini-feature-box input[type="text"],
+        .gemini-feature-box textarea {
+            width: 100%;
+            padding: 14px; 
+            border: 1px solid var(--border-light);
+            border-radius: var(--border-radius-md);
+            margin-bottom: 22px; 
+            font-size: 1.05rem; 
+            color: var(--text-primary);
+        }
+        .gemini-result-box {
+            margin-top: 25px; 
+            padding: 18px; 
+            background-color: var(--bg-light);
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-light);
+            min-height: 60px; 
+            white-space: pre-wrap; 
+            color: var(--text-secondary);
+            font-size: 1.05rem; 
+        }
+        .loading-indicator {
+            display: none; 
+            text-align: center;
+            padding: 12px; 
+            color: var(--primary-color);
+            font-size: 1.05rem; 
+        }
+        .loading-indicator.show {
+            display: block;
+        }
+        .disclaimer {
+            font-size: 0.9rem; 
+            color: var(--text-secondary);
+            margin-top: 18px; 
+            font-style: italic;
+        }
+
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 35px; 
+        }
+
+        .card {
+            background: var(--bg-white);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; 
+            flex-direction: column; 
+        }
+        .card:hover {
+            transform: translateY(-8px); 
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card img.card-image {
+            width: 100%;
+            height: 240px; 
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-light); 
+        }
+
+        .card-content {
+            padding: 28px; 
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem; 
+            font-weight: 600;
+            margin-bottom: 14px; 
+            color: var(--primary-darker);
+        }
+
+        .card-description {
+            font-size: 1rem; 
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: auto; 
+        }
+        #produk {
+            background-color: var(--bg-light); 
+        }
+        #layanan {
+            background-color: var(--bg-white);
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mt-12 {
+            margin-top: 4rem; 
+        }
+
+        #kontak {
+            background-color: var(--bg-light); 
+        }
+        #kontak .contact-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            background-color: var(--bg-white);
+            padding: 35px; 
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+        }
+        #kontak .contact-info, #kontak .contact-map {
+            flex: 1;
+            min-width: 280px; 
+        }
+        #kontak .contact-info h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.9rem; 
+            color: var(--primary-darker);
+            margin-bottom: 22px; 
+        }
+        #kontak .contact-info p {
+            margin-bottom: 14px; 
+            color: var(--text-secondary);
+            font-size: 1.05rem; 
+        }
+        #kontak .contact-info strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        #kontak .social-media {
+            margin-top: 28px; 
+        }
+        #kontak .social-media h4 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem; 
+            color: var(--text-primary);
+            margin-bottom: 18px; 
+            font-weight: 600;
+        }
+        #kontak .social-media a {
+            margin-right: 20px; 
+            text-decoration: none;
+            font-size: 1.6rem; 
+            transition: color 0.2s ease, transform 0.2s ease;
+            display: inline-block; 
+        }
+        #kontak .social-media a:hover {
+            transform: scale(1.15); 
+        }
+
+        #kontak .social-media a.facebook i { color: #3b5998; }
+        #kontak .social-media a.instagram i { color: #E1306C; }
+        #kontak .social-media a.whatsapp i { color: #25D366; }
+        
+        #kontak .social-media a.facebook:hover i { color: #324b80; } 
+        #kontak .social-media a.instagram:hover i { color: #c21d56; }
+        #kontak .social-media a.whatsapp:hover i { color: #1da851; } 
+
+        #kontak .map-container { 
+            border-radius: var(--border-radius-md);
+            width: 100%;
+            min-height: 400px; 
+            overflow: hidden; 
+        }
+        #kontak .map-container iframe {
+            width: 100%;
+            height: 100%;
+            min-height: 400px; 
+            border:0;
+        }
+
+
+        footer {
+            background: var(--primary-darker); 
+            color: var(--bg-light); 
+            text-align: center;
+            padding: 35px 0; 
+            margin-top: 45px; 
+        }
+        footer p {
+            margin-bottom: 10px; 
+            font-size: 0.95rem; 
+        }
+        footer .love {
+            color: var(--secondary-color); 
+        }
+
+        @media (max-width: 992px) { 
+            .container { max-width: 95%; } 
+            #beranda.simple-hero h1 { font-size: 3rem; }
+            #beranda.simple-hero p { font-size: 1.15rem; }
+            .section-title { font-size: 2.5rem; } 
+            #tentang .about-content { 
+                flex-direction: column; 
+                padding: 30px; 
+            }
+            #tentang .about-image { 
+                flex-basis: auto; 
+                width: 100%; 
+                max-width: 450px; 
+                margin-top: 30px; 
+            }
+            #tentang .about-text {
+                min-width: 100%; 
+            }
+             .card-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            }
+        }
+
+        @media (max-width: 768px) { 
+            .container {
+                width: 95%; 
+            }
+            header .logo {
+                 font-size: 1.8rem; 
+            }
+
+            .nav-toggle {
+                display: block; 
+            }
+
+            header nav#main-navigation { 
+                position: fixed; 
+                top: 0;
+                right: calc(var(--mobile-nav-width) * -1); 
+                left: auto; 
+                width: var(--mobile-nav-width);
+                height: 100vh; 
+                background-color: var(--bg-white);
+                box-shadow: var(--shadow-lg); 
+                padding-top: 70px; 
+                transition: right 0.35s ease-in-out; 
+                z-index: 1008; 
+                overflow-y: auto; 
+            }
+
+            header nav#main-navigation.nav-active { 
+                right: 0; 
+            }
+
+            header nav#main-navigation ul {
+                flex-direction: column; 
+                align-items: stretch; 
+                width: 100%;
+                padding: 0; 
+            }
+
+            header nav#main-navigation ul li {
+                margin: 0; 
+                width: 100%; 
+                text-align: left; 
+            }
+            header nav#main-navigation ul li:not(:last-child) {
+                border-bottom: 1px solid var(--border-light); 
+            }
+
+            header nav#main-navigation ul li a {
+                font-size: 1rem; 
+                padding: 18px 25px; 
+                width: 100%;
+                border-radius: 0; 
+            }
+             header nav#main-navigation ul li a:hover,
+             header nav#main-navigation ul li a.active {
+                background-color: var(--primary-color); 
+                color: var(--bg-white);
+            }
+
+            #beranda.simple-hero { padding: 60px 0; }
+            #beranda.simple-hero h1 { font-size: 2.5rem; } 
+            #beranda.simple-hero p { font-size: 1.1rem; }
+
+            .section-title { 
+                font-size: 2.2rem; 
+                margin-bottom: 35px;
+            }
+            .gemini-feature-box h3 {
+                font-size: 1.6rem; 
+            }
+            #tentang .about-content {
+                padding: 20px; 
+            }
+            #tentang .about-text p {
+                font-size: 1.05rem; 
+            }
+
+            .card-grid { 
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+                gap: 20px; 
+            }
+            .card-title {
+                font-size: 1.4rem; 
+            }
+            .card-description {
+                font-size: 0.95rem; 
+            }
+
+            #kontak .contact-flex { 
+                flex-direction: column; 
+                padding: 25px; 
+            }
+            #kontak .contact-info h3 {
+                font-size: 1.6rem; 
+            }
+            #kontak .contact-info p {
+                font-size: 1rem; 
+            }
+             #kontak .social-media h4 {
+                font-size: 1.1rem; 
+            }
+            #kontak .social-media a {
+                font-size: 1.5rem; 
+                margin-right: 15px;
+            }
+            #kontak .map-container {
+                min-height: 300px;
+            }
+            #kontak .map-container iframe {
+                min-height: 300px;
+            }
+
+
+            .btn { 
+                padding: 14px 28px; 
+                font-size: 1rem; 
+                width: auto; 
+                display: inline-block; 
+            }
+            
+            footer {
+                padding: 25px 0;
+            }
+        }
+
+         @media (max-width: 480px) { 
+            :root {
+                 --mobile-nav-width: 250px; 
+            }
+            .container { 
+                width: 95%; 
+                padding: 0 10px;
+            }
+            header .logo { 
+                font-size: 1.6rem; 
+            }
+             header nav#main-navigation ul li a { 
+                font-size: 0.95rem; 
+                padding: 15px 20px; 
+            }
+
+            #beranda.simple-hero h1 { font-size: 2rem; } 
+            #beranda.simple-hero p { font-size: 1rem; }
+
+            .section-title { 
+                font-size: 1.8rem; 
+                margin-bottom: 30px;
+            }
+            .gemini-feature-box h3 {
+                font-size: 1.4rem; 
+            }
+            .gemini-feature-box select,
+            .gemini-feature-box input[type="text"],
+            .gemini-feature-box textarea {
+                font-size: 0.95rem; 
+                padding: 12px; 
+            }
+            .gemini-result-box {
+                font-size: 0.95rem; 
+            }
+
+            #tentang .about-text p {
+                font-size: 1rem; 
+            }
+            .card-grid { 
+                grid-template-columns: 1fr; 
+                gap: 20px;
+            }
+            .card-title { 
+                font-size: 1.3rem; 
+            }
+             .card-description {
+                font-size: 0.9rem; 
+            }
+            #kontak .contact-info h3 { 
+                font-size: 1.5rem; 
+            }
+            #kontak .contact-info p {
+                font-size: 0.95rem; 
+            }
+            #kontak .social-media a { 
+                font-size: 1.4rem; 
+                margin-right: 12px;
+            }
+            #kontak .map-container {
+                min-height: 250px;
+            }
+            #kontak .map-container iframe {
+                min-height: 250px;
+            }
+            .btn {
+                padding: 12px 22px; 
+                font-size: 0.95rem; 
+            }
+             .text-center .btn {
+                width: 80%; 
+                max-width: 280px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+             footer p {
+                font-size: 0.9rem; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-overlay"></div>
+
+    <header>
+        <div class="container">
+            <a href="#beranda" class="logo">RaiRakaPetshop</a>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i> 
+            </button>
+            <nav id="main-navigation"> 
+                <ul>
+                    <li><a href="#beranda" class="nav-link active">Beranda</a></li>
+                    <li><a href="#tentang" class="nav-link">Tentang Kami</a></li>
+                     <li><a href="#fitur-ai" class="nav-link">✨ Fitur AI</a></li>
+                    <li><a href="#produk" class="nav-link">Produk</a></li>
+                    <li><a href="#layanan" class="nav-link">Layanan</a></li>
+                    <li><a href="#kontak" class="nav-link">Kontak</a></li>
+                   
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="beranda" class="simple-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Selamat Datang di RaiRakaPetshop</h1>
+                <p>Temukan semua kebutuhan hewan peliharaan kesayangan Anda di sini. Kami menyediakan produk berkualitas dan layanan terbaik untuk sahabat berbulu Anda.</p>
+                <a href="#produk" class="btn btn-primary">Lihat Produk Kami</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="tentang">
+        <div class="container">
+            <h2 class="section-title">Tentang RaiRakaPetshop</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Selamat datang di RaiRakaPetshop, destinasi utama Anda untuk semua kebutuhan hewan peliharaan kesayangan. Sejak didirikan pada tahun 2024, kami berdedikasi penuh untuk menyediakan produk-produk berkualitas premium dan layanan profesional yang dirancang untuk meningkatkan kesejahteraan sahabat berbulu Anda.
+                    </p>
+                    <p>
+                        Visi kami adalah menjadi mitra terpercaya bagi para pecinta hewan di Bekasi dan sekitarnya, dengan misi untuk mengedukasi dan memfasilitasi perawatan hewan yang bertanggung jawab. Kami percaya bahwa setiap hewan berhak mendapatkan cinta, perhatian, dan perawatan terbaik. Di RaiRakaPetshop, kami tidak hanya menjual produk, kami membangun komunitas.
+                    </p>
+                    <a href="#kontak" class="btn btn-secondary" style="margin-top: 20px;">Hubungi Kami Sekarang</a>
+                </div>
+                <div class="about-image">
+                    <img src="cta-banner.png" alt=>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="fitur-ai" class="gemini-feature-section">
+        <div class="container">
+            <h2 class="section-title">✨ Asisten Pintar RaiRakaPetshop</h2>
+
+            <div class="gemini-feature-box">
+                <h3>Generator Nama Peliharaan</h3>
+                <label for="pet-type">Pilih jenis peliharaan:</label>
+                <select id="pet-type" name="pet-type">
+                    <option value="kucing">Kucing</option>
+                    <option value="anjing">Anjing</option>
+                    <option value="burung">Burung</option>
+                    <option value="hamster">Hamster</option>
+                    <option value="kelinci">Kelinci</option>
+                </select>
+                <button id="generate-name-btn" class="btn btn-primary" style="margin-top: 10px;">✨ Buat Nama!</button>
+                <div id="name-generator-loading" class="loading-indicator">Memuat nama...</div>
+                <div id="name-generator-result" class="gemini-result-box" style="display: none;"></div>
+            </div>
+
+            <div class="gemini-feature-box">
+                <h3>Tanya Jawab Perawatan Hewan</h3>
+                <label for="pet-care-question">Pertanyaan Anda:</label>
+                <textarea id="pet-care-question" rows="3" placeholder="Contoh: Bagaimana cara merawat anak kucing baru?"></textarea>
+                <button id="ask-pet-care-btn" class="btn btn-primary">✨ Tanya Ahli!</button>
+                <div id="pet-care-loading" class="loading-indicator">Mencari jawaban...</div>
+                <div id="pet-care-result" class="gemini-result-box" style="display: none;"></div>
+                <p class="disclaimer">Informasi ini dihasilkan oleh AI dan tidak menggantikan saran dari dokter hewan profesional. Untuk masalah kesehatan serius, selalu konsultasikan dengan dokter hewan.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="produk">
+        <div class="container">
+            <h2 class="section-title">Produk Unggulan Kami</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <img src="d976b4a4fb211dc3fa96936f91c748dc.jpeg" alt="" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Royal Cannin</h3>
+                        <p class="card-description">Royal Canin adalah perusahaan global yang berdedikasi pada kesehatan hewan peliharaan melalui nutrisi. Sejak didirikan pada tahun 1968 oleh seorang dokter hewan bernama Jean Cathary di Prancis, Royal Canin telah memegang teguh filosofi bahwa nutrisi adalah kunci utama untuk menjaga kesehatan dan kesejahteraan hewan peliharaan.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="purina-pro-plan-logo.png" alt="" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Purina Proplan</h3>
+                        <p class="card-description">Purina Pro Plan secara umum dianggap sebagai merek makanan hewan peliharaan yang bagus dan berkualitas. Sama seperti Royal Canin, Pro Plan juga memiliki reputasi yang kuat di kalangan pemilik hewan dan dokter hewan.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="whiskas2.jpg" alt="">
+                    <div class="card-content">
+                        <h3 class="card-title">Whiskas Cat Food</h3>
+                        <p class="card-description">Whiskas adalah salah satu merek makanan kucing yang sangat populer dan mudah ditemukan di banyak tempat di seluruh dunia, termasuk Indonesia. Merek ini dimiliki oleh perusahaan Mars, Incorporated, yang juga memproduksi berbagai merek makanan hewan dan produk konsumen lainnya.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="layanan">
+        <div class="container">
+            <h2 class="section-title">Layanan Profesional Kami</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <img src="category-2.jpg" alt="Gambar placeholder layanan grooming profesional" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Grooming Profesional</h3>
+                        <p class="card-description">Manjakan hewan peliharaan Anda dengan layanan grooming lengkap dari para ahli kami. Kebersihan, kesehatan, dan penampilan terbaik untuk sahabat Anda.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="offer-banner-2.jpg" alt="Gambar placeholder layanan penitipan hewan aman" class="card-image">
+                    <div class="card-content">
+                        <h3 class="card-title">Penitipan Hewan (Pet Hotel)</h3>
+                        <p class="card-description">Pergi dengan tenang, titipkan hewan kesayangan Anda di fasilitas kami yang aman, nyaman, dan penuh perhatian seperti di rumah sendiri.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak">
+        <div class="container">
+            <h2 class="section-title">Kunjungi atau Hubungi Kami</h2>
+            <div class="contact-flex">
+                <div class="contact-info">
+                    <h3>Informasi RaiRakaPetshop</h3>
+                    <p>
+                        <strong>Alamat:</strong> Jln. Bumi Sani Permai, Setiamekar, Kec. Tambun Sel., Kabupaten Bekasi, Jawa Barat 17510
+                    </p>
+                    <p>
+                        <strong>Telepon:</strong> <a href="tel:+62211234567" style="color: var(--primary-color); text-decoration:none;">0812-8767-7169</a>
+                    </p>
+                    <p>
+                        <strong>Email:</strong> <a href="mailto:RaiRakaPetshop@gmail.com" style="color: var(--primary-color); text-decoration:none;">RaiRakaPetshop@gmail.com</a>
+                    </p>
+                    <p>
+                        <strong>Jam Operasional:</strong> <br>
+                        Senin - Minggu: 08.00 - 21.00 WIB <br>   
+                    </p>
+                    <div class="social-media">
+                        <h4>Ikuti Kami:</h4>
+                        <a href="https://www.instagram.com/rairakapetshop01/" class="instagram" target="_blank" title="Instagram RaiRakaPetshop"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/62081287677169" class="whatsapp" target="_blank" title="WhatsApp RaiRakaPetshop"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="contact-map">
+                     <div class="map-container"> 
+                        <!-- 
+                            =========================================================================
+                            GANTI BAGIAN DI BAWAH INI DENGAN KODE SEMAT GOOGLE MAPS ANDA YANG SEBENARNYA
+                            Anda bisa mendapatkan kode ini dari Google Maps dengan mencari lokasi Anda,
+                            kemudian klik "Bagikan" -> "Sematkan peta" -> "SALIN HTML".
+                            =========================================================================
+                        -->
+                        <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3160.69425773034!2d107.04869685849124!3d-6.243133761765507!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698f002a9fa383%3A0x3e4b1a2f730ae360!2sRaiRaka%20Petshop!5e0!3m2!1sid!2sid!4v1747890870065!5m2!1sid!2sid"
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="currentYear"></span> RaiRakaPetshop. Semua Hak Dilindungi Undang-Undang.</p>
+            <p class="text-sm">Dirancang dengan untuk kebahagiaan hewan peliharaan Anda.</p>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const mainNavigation = document.getElementById('main-navigation');
+        const navOverlay = document.querySelector('.nav-overlay'); 
+        const bodyElement = document.body;
+
+        if (navToggle && mainNavigation && navOverlay) {
+            navToggle.addEventListener('click', () => {
+                const isExpanded = mainNavigation.classList.toggle('nav-active');
+                navToggle.setAttribute('aria-expanded', isExpanded.toString());
+                bodyElement.classList.toggle('show-overlay', isExpanded); 
+                
+                const icon = navToggle.querySelector('i');
+                if (isExpanded) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            const closeMobileMenu = () => {
+                if (mainNavigation.classList.contains('nav-active')) {
+                    mainNavigation.classList.remove('nav-active');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                    bodyElement.classList.remove('show-overlay'); 
+                    const icon = navToggle.querySelector('i');
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            };
+
+            mainNavigation.querySelectorAll('ul li a').forEach(link => {
+                link.addEventListener('click', closeMobileMenu);
+            });
+
+            navOverlay.addEventListener('click', closeMobileMenu);
+        }
+
+        document.querySelectorAll('#main-navigation ul li a.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    e.preventDefault(); 
+                    const headerOffset = document.querySelector('header').offsetHeight + 10; 
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const sections = document.querySelectorAll('section[id]');
+        const navLinksForScroll = document.querySelectorAll('#main-navigation ul li a.nav-link');
+        const headerHeight = document.querySelector('header') ? document.querySelector('header').offsetHeight : 60;
+
+        window.addEventListener('scroll', () => {
+            let currentId = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - headerHeight - 20) { 
+                    currentId = section.getAttribute('id');
+                }
+            });
+
+            navLinksForScroll.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === currentId) {
+                    link.classList.add('active');
+                }
+            });
+            
+            if (currentId === '' || (sections.length > 0 && pageYOffset < sections[0].offsetTop - headerHeight - 20) ) {
+                 navLinksForScroll.forEach(link => link.classList.remove('active'));
+                 const berandaLink = document.querySelector('#main-navigation ul li a.nav-link[href="#beranda"]');
+                 if (berandaLink) {
+                    berandaLink.classList.add('active');
+                 }
+            }
+        });
+
+        // --- Gemini API Features ---
+        const generateNameBtn = document.getElementById('generate-name-btn');
+        const petTypeSelect = document.getElementById('pet-type');
+        const nameResultDiv = document.getElementById('name-generator-result');
+        const nameLoadingDiv = document.getElementById('name-generator-loading');
+
+        const askPetCareBtn = document.getElementById('ask-pet-care-btn');
+        const petCareQuestionInput = document.getElementById('pet-care-question');
+        const petCareResultDiv = document.getElementById('pet-care-result');
+        const petCareLoadingDiv = document.getElementById('pet-care-loading');
+
+        const apiKey = "AIzaSyCpHyquql7RAGkId_37asnLf88G8csI1mI"; // API Key akan disediakan oleh Canvas environment
+
+        async function callGeminiAPI(prompt, loadingDiv, resultDiv, buttonToDisable) {
+            if (buttonToDisable) buttonToDisable.disabled = true;
+            loadingDiv.classList.add('show');
+            resultDiv.style.display = 'none';
+            resultDiv.textContent = '';
+
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error("API Error:", errorData);
+                    throw new Error(`API request failed with status ${response.status}: ${errorData.error?.message || 'Unknown error'}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    resultDiv.textContent = text;
+                } else {
+                    console.error("Unexpected API response structure:", result);
+                    resultDiv.textContent = "Maaf, terjadi kesalahan saat memproses permintaan Anda atau tidak ada respons yang valid.";
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                resultDiv.textContent = `Terjadi kesalahan: ${error.message}. Silakan coba lagi nanti.`;
+            } finally {
+                loadingDiv.classList.remove('show');
+                resultDiv.style.display = 'block';
+                if (buttonToDisable) buttonToDisable.disabled = false;
+            }
+        }
+
+        if (generateNameBtn) {
+            generateNameBtn.addEventListener('click', () => {
+                const selectedPetType = petTypeSelect.value;
+                const prompt = `Berikan 5 ide nama yang unik, lucu, dan mudah diingat untuk hewan peliharaan jenis ${selectedPetType} dalam bahasa Indonesia. Format sebagai daftar bernomor.`;
+                callGeminiAPI(prompt, nameLoadingDiv, nameResultDiv, generateNameBtn);
+            });
+        }
+
+        if (askPetCareBtn) {
+            askPetCareBtn.addEventListener('click', () => {
+                const question = petCareQuestionInput.value.trim();
+                if (!question) {
+                    petCareResultDiv.textContent = "Silakan masukkan pertanyaan Anda terlebih dahulu.";
+                    petCareResultDiv.style.display = 'block';
+                    return;
+                }
+                const prompt = `Jawab pertanyaan dasar tentang perawatan hewan berikut ini dalam bahasa Indonesia yang sederhana dan informatif (sekitar 2-4 kalimat): "${question}". Ingatkan bahwa ini bukan pengganti saran dokter hewan profesional.`;
+                callGeminiAPI(prompt, petCareLoadingDiv, petCareResultDiv, askPetCareBtn);
+            });
+        }
+
+    </script>
+
+</body>
+</ht
